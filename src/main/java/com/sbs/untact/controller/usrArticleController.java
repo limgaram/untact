@@ -50,10 +50,13 @@ public class usrArticleController {
 
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public Article doDelete(int id) {
+	public Map<String, Object> doDelete(int id) {
+		Map<String, Object> rs = new HashMap<>();
+		rs.put("rs.resultCode", "S-1");
+		rs.put("msg", "성공하였습니다.");
+		rs.put("id", articlesLastId);
+		articles.remove(id - 1);
 
-		articles.remove(id);
-
-		return articles.get(id);
+		return rs;
 	}
 }
