@@ -47,4 +47,13 @@ public class usrArticleController {
 
 		return rs;
 	}
+
+	@RequestMapping("/usr/article/doDelete")
+	@ResponseBody
+	public Article doDelete(int id) {
+
+		articles.remove(id);
+
+		return articles.get(id);
+	}
 }
