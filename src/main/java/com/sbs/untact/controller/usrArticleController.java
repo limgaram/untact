@@ -51,12 +51,30 @@ public class usrArticleController {
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
 	public Map<String, Object> doDelete(int id) {
+		boolean deleteArticleRs = deleteArticle(id);
+
 		Map<String, Object> rs = new HashMap<>();
-		rs.put("rs.resultCode", "S-1");
-		rs.put("msg", "성공하였습니다.");
-		rs.put("id", articlesLastId);
-		articles.remove(id - 1);
+
+		if (deleteArticleRs) {
+			rs.put("resultCode", "S-1");
+			rs.put("msg", "성공하였습니다.");
+		} else {
+			rs.put("resultCode", "F-1");
+			rs.put("msg", "해당 게시물은 존재하지 않습니다.");
+		}
+
+		rs.put("id", id);
 
 		return rs;
+	}
+
+	private boolean deleteArticle(int id) {
+		for (Article article : articles) {
+			if (article.getId() == id) {
+				articles.remove(article);
+				return true;
+			}
+		}
+		return false;
 	}
 }
