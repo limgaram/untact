@@ -9,18 +9,54 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sbs.untact.util.Util;
+
 @Controller
-public class usrArticleController {
+public class UsrArticleController {
 	private List<Article> articles;
 
 	private int articlesLastId;
 
-	public usrArticleController() {
+	public UsrArticleController() {
 		articlesLastId = 0;
 		articles = new ArrayList<>();
 
-		articles.add(new Article(++articlesLastId, "2020-12-12 12:12:12", "제목1", "내용1"));
-		articles.add(new Article(++articlesLastId, "2020-12-12 12:12:12", "제목2", "내용2"));
+		articles.add(new Article(++articlesLastId, "2020-12-12 12:12:12", "2020-12-12 12:12:12", "제목1", "내용1"));
+		articles.add(new Article(++articlesLastId, "2020-12-12 12:12:12", "2020-12-12 12:12:12", "제목2", "내용2"));
+	}
+
+	@RequestMapping("/usr/article/list")
+	@ResponseBody
+	public List<Article> showList() {
+
+		return articles;
+
+	}
+
+	@RequestMapping("/usr/article/list")
+	@ResponseBody
+	public Map<String, Object> showSearchArticle(String searchKeyword) {
+		String searchArticle = null;
+
+		for (Article article : articles) {
+			if (searchArticle.contains(searchKeyword)) {
+				articles.get(searchArticle);
+				break;
+			}
+		}
+
+		Map<String, Object> rs = new HashMap<>();
+
+		if (searchArticle == null) {
+			rs.put("resultCode", "F-1");
+			rs.put("msg", "해당 게시물은 존재하지 않습니다.");
+			return rs;
+		}
+
+		rs.put("resultCode", "S-1");
+		rs.put("msg", searchArticle);
+
+		return rs;
 	}
 
 	@RequestMapping("/usr/article/detail")
@@ -29,16 +65,13 @@ public class usrArticleController {
 		return articles.get(id - 1);
 	}
 
-	@RequestMapping("/usr/article/list")
-	@ResponseBody
-	public List<Article> showList() {
-		return articles;
-	}
-
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
-	public Map<String, Object> doAdd(String regDate, String title, String body) {
-		articles.add(new Article(++articlesLastId, regDate, title, body));
+	public Map<String, Object> doAdd(String title, String body) {
+		String regDate = Util.getNowDateStr();
+		String updateDate = regDate;
+
+		articles.add(new Article(++articlesLastId, Util.getNowDateStr(), title, body));
 
 		Map<String, Object> rs = new HashMap<>();
 		rs.put("rs.resultCode", "S-1");
@@ -77,4 +110,37 @@ public class usrArticleController {
 		}
 		return false;
 	}
+
+	@RequestMapping("/usr/article/doModify")
+	@ResponseBody
+	public Map<String, Object> doModify(int id, String title, String body) {
+		Article selArticle = null;
+
+		for (Article article : articles) {
+			if (article.getId() == id) {
+				selArticle = article;
+				break;
+			}
+		}
+
+		Map<String, Object> rs = new HashMap<>();
+
+		if (selArticle == null) {
+			rs.put("resultCode", "F-1");
+			rs.put("msg", "해당 게시물은 존재하지 않습니다.");
+			return rs;
+		}
+
+		selArticle.setTitle(title);
+		selArticle.setBody(body);
+		selArticle.setUpdateDate(Util.getNowDateStr());
+
+		rs.put("resultCode", "S-1");
+		rs.put("msg", String.format("%d번 게시물이 수정되었습니다. ", id));
+		rs.put("id", id);
+
+		return rs;
+
+	}
+
 }
