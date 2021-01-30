@@ -1,7 +1,4 @@
-package com.sbs.untact.controller;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+package com.sbs.untact.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
