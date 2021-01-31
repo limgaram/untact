@@ -15,34 +15,34 @@ import com.sbs.untact.util.Util;
 @Controller
 public class UsrArticleController {
 
+//ctrl + shift + r = 관련된 거 한번에 바꾸기
+
 	@Autowired
 	private ArticleService articleService;
 
 	@RequestMapping("/usr/article/list")
 	@ResponseBody
-	public List<Article> showList() {
+	public List<Article> showList(String searchKeywordType, String searchKeyword) {
 
-		return articleService.getArticles();
+		if (searchKeywordType != null) {
+			searchKeywordType = searchKeywordType.trim();
+		}
+
+		if (searchKeywordType == null || searchKeywordType.length() == 0) {
+			searchKeywordType = "titleAndBody";
+		}
+
+		if (searchKeyword != null || searchKeyword.length() == 0) {
+			searchKeyword = null;
+		}
+
+		if (searchKeyword != null) {
+			searchKeyword = searchKeyword.trim();
+		}
+
+		return articleService.getArticles(searchKeywordType, searchKeyword);
 
 	}
-//
-//	@RequestMapping("/usr/article/list")
-//	@ResponseBody
-//	public ResultData showSearchArticle(String searchKeyword) {
-//		String searchArticle = null;
-//
-//		for (Article article : articles) {
-//			if (searchArticle.contains(searchKeyword)) {
-//				articles.get(searchArticle);
-//				break;
-//			}
-//
-//		if (searchArticle == null) {
-//			return new ResultData("F-1", "해당 게시물은 존재하지 않습니다. ");
-//		}
-//
-//		return articleService.search(searchKeyword);
-//	}
 
 	@RequestMapping("/usr/article/detail")
 	@ResponseBody
@@ -64,7 +64,7 @@ public class UsrArticleController {
 			return new ResultData("F-1", "body를 입력해주세요. ");
 		}
 
-		return articleService.add(title, body);
+		return articleService.addArticle(title, body);
 	}
 
 	@RequestMapping("/usr/article/doDelete")
@@ -81,14 +81,27 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public ResultData doModify(int id, String title, String body) {
+	public ResultData doModify(Integer id, String title, String body) {
+
+		if (id == null) {
+			return new ResultData("F-1", "id을 입력해주세요. ");
+		}
+
+		if (title == null) {
+			return new ResultData("F-1", "title을 입력해주세요. ");
+		}
+
+		if (body == null) {
+			return new ResultData("F-1", "body를 입력해주세요. ");
+		}
+
 		Article article = articleService.getArticle(id);
 
 		if (article == null) {
 			return new ResultData("F-1", "해당 게시물은 존재하지 않습니다. ");
 		}
 
-		return articleService.modify(id, title, body);
+		return articleService.modifyArticle(id, title, body);
 
 	}
 
