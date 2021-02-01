@@ -25,23 +25,28 @@ public class UsrArticleController {
 	public List<Article> showList(String searchKeywordType, String searchKeyword) {
 
 		if (searchKeywordType != null) {
+			// searchKeywordType이 비어있지 않으면 공백 제거
 			searchKeywordType = searchKeywordType.trim();
 		}
 
 		if (searchKeywordType == null || searchKeywordType.length() == 0) {
+			// searchKeywordType이 null이거나 길이가 0이면
+			// 제목과 내용 둘 다에서 검색하는 걸로 설정
 			searchKeywordType = "titleAndBody";
 		}
 
-		if (searchKeyword != null || searchKeyword.length() == 0) {
+		if (searchKeyword != null && searchKeyword.length() == 0) {
+			// searchKeyword가 비어있지 않은데 길이가 0이면
+			// searchKeyword는 null임
 			searchKeyword = null;
 		}
 
-		if (searchKeyword != null) {
+		if (searchKeyword == null) {
+			// searchKeyword가 null이면 공백제거
 			searchKeyword = searchKeyword.trim();
 		}
 
 		return articleService.getArticles(searchKeywordType, searchKeyword);
-
 	}
 
 	@RequestMapping("/usr/article/detail")
@@ -82,6 +87,11 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
 	public ResultData doModify(Integer id, String title, String body) {
+		// int는 null 불가능, Integer은 null 가능.
+		// @RequestParam(defaultValue = "0") int id
+		// = 기본값으로 0이 자동으로 들어가게 설정하는 거.
+
+		// 입력 데이터 유효셩 체크
 
 		if (id == null) {
 			return new ResultData("F-1", "id을 입력해주세요. ");

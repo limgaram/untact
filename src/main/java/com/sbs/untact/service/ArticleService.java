@@ -24,18 +24,16 @@ public class ArticleService {
 
 	public ResultData addArticle(String title, String body) {
 
-		int id = articleDao.addArticle(title, body);
+		articleDao.addArticle(title, body);
+
+		int id = 1;
 
 		return new ResultData("S-1", "성공하였습니다.", "id", id);
 	}
 
 	public ResultData deleteArticle(int id) {
 
-		boolean rs = articleDao.deleteArticle(id);
-
-		if (rs == false) {
-			return new ResultData("F-1", "해당 게시물은 존재하지 않습니다.", "id", id);
-		}
+		articleDao.deleteArticle(id);
 
 		return new ResultData("S-1", "삭제하였습니다.", "id", id);
 	}
