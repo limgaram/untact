@@ -1,6 +1,5 @@
 package com.sbs.untact.controller;
 
-import java.net.http.HttpRequest;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -47,13 +46,6 @@ public class UsrMemberController {
 		}
 		if (param.get("email") == null) {
 			return new ResultData("F-1", "email를 입력해주세요. ");
-		}
-
-		for (Member member : members) {
-			if (member.getLoginId() == loginId) {
-				return new ResultData("F-2", ("로그인 아이디" + loginId + "(은)는 이미 사용 중입니다."));
-			}
-
 		}
 
 		return memberService.join(param);
@@ -104,7 +96,18 @@ public class UsrMemberController {
 
 	@RequestMapping("/usr/member/doModify")
 	@ResponseBody
-	public ResultData doModify() {
+	public ResultData doModify(@RequestParam Map<String, Object> param, HttpSession session) {
+		if (session.getAttribute("loginedMemberid") == null) {
+			return new ResultData("F-1", "로그인 후 이용해주세요.");
+		}
 
+		if (param.isEmpty()) {
+			return new ResultData("F-2", "수정할 정보를 입력해주세요.");
+		}
+
+		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
+		param.put("id", loginedMemberId);
+
+		return memberService.modifyMember(param);
 	}
 }

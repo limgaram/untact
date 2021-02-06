@@ -32,4 +32,30 @@
 		FROM `member`
 		WHERE loginId = #{loginId}
 	</select>
+
+	<update id="modifyMember">
+		UPDATE member
+		<set>
+			<if
+				test="loginPw != null || name != null || nickname != null || cellphoneNo != null || email != null">
+				updateDate = NOW(),
+			</if>
+			<if test="loginPw != null">
+				loginPw = #{loginPw},
+			</if>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="nickname != null">
+				nickname = #{nickname},
+			</if>
+			<if test="cellphoneNo != null">
+				cellphoneNo = #{cellphoneNo},
+			</if>
+			<if test="email != null">
+				email = #{email},
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
 </mapper>	

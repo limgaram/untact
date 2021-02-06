@@ -33,4 +33,9 @@ public class MemberService {
 		return memberDao.getMemberByLoginId(loginId);
 	}
 
+	public ResultData modifyMember(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
