@@ -9,3 +9,7 @@ spring:
     password: sbs123414
 mybatis:
   type-aliases-package: com.sbs.untact.dto
+custom:
+  logging:
+    dir: log
+    level: debug

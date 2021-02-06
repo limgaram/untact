@@ -48,6 +48,11 @@ public class UsrArticleController {
 			searchKeyword = searchKeyword.trim();
 		}
 
+		if (searchKeyword == null) {
+			//검색어가 없을 때는 검색어타입도 null
+			searchKeywordType = null;
+		}
+
 		return articleService.getArticles(searchKeywordType, searchKeyword);
 	}
 
@@ -77,7 +82,7 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
 	public ResultData doDelete(int id) {
-		
+
 		Article article = articleService.getArticle(id);
 
 		if (article == null) {
@@ -90,7 +95,7 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
 	public ResultData doModify(Integer id, String title, String body) {
-		
+
 		// int는 null 불가능, Integer은 null 가능.
 		// @RequestParam(defaultValue = "0") int id
 		// = 기본값으로 0이 자동으로 들어가게 설정하는 거.
