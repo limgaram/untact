@@ -21,7 +21,7 @@ public class UsrMemberController {
 
 	@RequestMapping("/usr/member/dojoin")
 	@ResponseBody
-	public ResultData dojoin(@RequestParam Map<String, Object> param, HttpRequest request) {
+	public ResultData dojoin(@RequestParam Map<String, Object> param) {
 
 		if (param.get("loginId") == null) {
 			return new ResultData("F-1", "loginId를 입력해주세요. ");

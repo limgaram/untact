@@ -8,10 +8,6 @@ import org.apache.ibatis.annotations.Param;
 import com.sbs.untact.dto.Member;
 
 @Mapper
-public class MemberDao {
-
-	public Member getMember(@Param(value = "id") int id);
-
-	public void addMember(Map<String, Object> param);
-
+public interface MemberDao {
+	public void join(Map<String, Object> param);
 }
