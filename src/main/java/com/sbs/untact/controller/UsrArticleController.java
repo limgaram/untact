@@ -17,6 +17,7 @@ import com.sbs.untact.service.ArticleService;
 public class UsrArticleController {
 
 //ctrl + shift + r = 관련된 거 한번에 바꾸기
+//(ctrl + alt + q) + p
 
 	@Autowired
 	private ArticleService articleService;
@@ -42,8 +43,8 @@ public class UsrArticleController {
 			searchKeyword = null;
 		}
 
-		if (searchKeyword == null) {
-			// searchKeyword가 null이면 공백제거
+		if (searchKeyword != null) {
+			// searchKeyword에 키워드가 들어오면 공백제거
 			searchKeyword = searchKeyword.trim();
 		}
 
@@ -76,6 +77,7 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
 	public ResultData doDelete(int id) {
+		
 		Article article = articleService.getArticle(id);
 
 		if (article == null) {
@@ -88,6 +90,7 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
 	public ResultData doModify(Integer id, String title, String body) {
+		
 		// int는 null 불가능, Integer은 null 가능.
 		// @RequestParam(defaultValue = "0") int id
 		// = 기본값으로 0이 자동으로 들어가게 설정하는 거.
