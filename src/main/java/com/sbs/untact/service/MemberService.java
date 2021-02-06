@@ -18,19 +18,19 @@ public class MemberService {
 
 	public ResultData join(Map<String, Object> param) {
 		memberDao.join(param);
-		
+
 		int id = Util.getAsInt(param.get("id"), 0);
-		return new ResultData("S-1" String.format("%s님 환영합니다.", param.get("nickname")), "id", id);
-	}
-
-	public ResultData login(String loginId, String loginPw) {
-
-		return memberDao.getMember();
+		return new ResultData("S-1", String.format("%s님 환영합니다.", param.get("nickname")), "id", id);
 	}
 
 	public Member getMember(int id) {
 
 		return memberDao.getMember(id);
+	}
+
+	public Member getMemberByLoginId(String loginId) {
+
+		return memberDao.getMemberByLoginId(loginId);
 	}
 
 }
