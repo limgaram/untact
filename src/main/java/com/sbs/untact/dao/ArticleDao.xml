@@ -5,11 +5,14 @@
 
 <mapper namespace="com.sbs.untact.dao.ArticleDao">
 
-	<select id="getArticle" resultType="Article">
-		SELECT *
-		FROM article
-		WHERE id
-		= #{id}
+	<select id="getForPrintArticle" resultType="Article">
+		SELECT A.*,
+		IFNULL(M.nickname, "탈퇴회원") AS extra__writer
+		FROM article AS A
+		LEFT JOIN
+		`member` AS M
+		ON A.memberId = M.id
+		WHERE A.id = #{id}
 	</select>
 
 	<select id="getArticles" resultType="Article">

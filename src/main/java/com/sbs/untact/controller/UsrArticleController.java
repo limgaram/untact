@@ -3,6 +3,8 @@ package com.sbs.untact.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.untact.dto.Article;
+import com.sbs.untact.dto.Member;
 import com.sbs.untact.dto.ResultData;
 import com.sbs.untact.service.ArticleService;
+import com.sbs.untact.service.MemberService;
+import com.sbs.untact.util.Util;
 
 @Controller
 public class UsrArticleController {
@@ -21,6 +26,8 @@ public class UsrArticleController {
 
 	@Autowired
 	private ArticleService articleService;
+	@Autowired
+	private MemberService memberSevice;
 
 	@RequestMapping("/usr/article/list")
 	@ResponseBody
@@ -49,7 +56,7 @@ public class UsrArticleController {
 		}
 
 		if (searchKeyword == null) {
-			//검색어가 없을 때는 검색어타입도 null
+			// 검색어가 없을 때는 검색어타입도 null
 			searchKeywordType = null;
 		}
 
@@ -58,15 +65,28 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/detail")
 	@ResponseBody
-	public Article showDetail(int id) {
+	public ResultData showDetail(Integer id) {
+		if (id == null) {
+			return new ResultData("F-1", "id를 입력해주세요.");
+		}
 
-		Article article = articleService.getArticle(id);
-		return article;
+		Article article = articleService.getForPrintArticle(id);
+
+		if (article == null) {
+			return new ResultData("F-2", "존재하지 않는 게시물번호 입니다.");
+		}
+
+		return new ResultData("S-1", "성공", "article", article);
 	}
 
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
-	public ResultData doAdd(@RequestParam Map<String, Object> param) {
+	public ResultData doAdd(@RequestParam Map<String, Object> param, HttpSession session) {
+
+		int loginedMemberId = Util.getAsInt(session.getAttribute("loginedMemberId"), 0);
+		if (loginedMemberId == 0) {
+			return new ResultData("F-2", "로그인 후 이용해주세요.");
+		}
 
 		if (param.get("title") == null) {
 			return new ResultData("F-1", "title을 입력해주세요. ");
@@ -76,12 +96,23 @@ public class UsrArticleController {
 			return new ResultData("F-1", "body를 입력해주세요. ");
 		}
 
+		param.put("memberId", loginedMemberId);
+
 		return articleService.addArticle(param);
 	}
 
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public ResultData doDelete(int id) {
+	public ResultData doDelete(Integer id, HttpSession session) {
+
+		int loginedMemberId = Util.getAsInt(session.getAttribute("loginedMemberId"), 0);
+		if (loginedMemberId == 0) {
+			return new ResultData("F-2", "로그인 후 이용해주세요.");
+		}
+
+		if (id == null) {
+			return new ResultData("F-1", "id를 입력해주세요.");
+		}
 
 		Article article = articleService.getArticle(id);
 
@@ -94,13 +125,18 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public ResultData doModify(Integer id, String title, String body) {
+	public ResultData doModify(Integer id, String title, String body, HttpSession session) {
 
 		// int는 null 불가능, Integer은 null 가능.
 		// @RequestParam(defaultValue = "0") int id
 		// = 기본값으로 0이 자동으로 들어가게 설정하는 거.
 
-		// 입력 데이터 유효셩 체크
+		// 입력 데이터 유효성 체크
+
+		int loginedMemberId = Util.getAsInt(session.getAttribute("loginedMemberId"), 0);
+		if (loginedMemberId == 0) {
+			return new ResultData("F-2", "로그인 후 이용해주세요.");
+		}
 
 		if (id == null) {
 			return new ResultData("F-1", "id을 입력해주세요. ");
@@ -118,6 +154,11 @@ public class UsrArticleController {
 
 		if (article == null) {
 			return new ResultData("F-1", "해당 게시물은 존재하지 않습니다. ");
+		}
+
+		ResultData actorCanModifyRd = articleService.getActorCanModifyRd(article, loginedMemberId);
+		if (actorCanModifyRd.isFail()) {
+			return actorCanModifyRd;
 		}
 
 		return articleService.modifyArticle(id, title, body);

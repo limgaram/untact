@@ -34,8 +34,13 @@ public class MemberService {
 	}
 
 	public ResultData modifyMember(Map<String, Object> param) {
-		// TODO Auto-generated method stub
-		return null;
+		memberDao.modifyMember(param);
+
+		return new ResultData("S-1", "회원정보가 수정되었습니다.");
+	}
+
+	public boolean isAdmin(int actorId) {
+		return actorId == 1;
 	}
 
 }
