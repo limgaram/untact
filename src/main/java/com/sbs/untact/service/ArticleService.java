@@ -70,4 +70,8 @@ public class ArticleService {
 		return articleDao.getForPrintArticle(id);
 	}
 
+	public List<Article> getForPrintArticles(String searchKeywordType, String searchKeyword) {
+		return articleDao.getForPrintArticles(searchKeywordType, searchKeyword);
+	}
+
 }

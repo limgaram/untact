@@ -45,6 +45,7 @@ public class Util {
 	}
 
 	public static int getAsInt(Object object, int defaultValue) {
+
 		if (object instanceof BigInteger) {
 			return ((BigInteger) object).intValue();
 		} else if (object instanceof Double) {

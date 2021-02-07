@@ -31,7 +31,7 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/list")
 	@ResponseBody
-	public List<Article> showList(String searchKeywordType, String searchKeyword) {
+	public ResultData showList(String searchKeywordType, String searchKeyword) {
 
 		if (searchKeywordType != null) {
 			// searchKeywordType이 비어있지 않으면 공백 제거
@@ -60,7 +60,9 @@ public class UsrArticleController {
 			searchKeywordType = null;
 		}
 
-		return articleService.getArticles(searchKeywordType, searchKeyword);
+		List<Article> articles = articleService.getForPrintArticles(searchKeywordType, searchKeyword);
+
+		return new ResultData("S-1", "성공", "articles", articles);
 	}
 
 	@RequestMapping("/usr/article/detail")
@@ -120,6 +122,12 @@ public class UsrArticleController {
 			return new ResultData("F-1", "해당 게시물은 존재하지 않습니다. ");
 		}
 
+		ResultData actorCanDeleteRd = articleService.getActorCanDeleteRd(article, loginedMemberId);
+
+		if (actorCanDeleteRd.isFail()) {
+			return actorCanDeleteRd;
+		}
+
 		return articleService.deleteArticle(id);
 	}
 
@@ -157,6 +165,7 @@ public class UsrArticleController {
 		}
 
 		ResultData actorCanModifyRd = articleService.getActorCanModifyRd(article, loginedMemberId);
+
 		if (actorCanModifyRd.isFail()) {
 			return actorCanModifyRd;
 		}
