@@ -56,9 +56,11 @@ public class ArticleService {
 		if (article.getMemberId() == actorId) {
 			return new ResultData("S-1", "가능합니다.");
 		}
+
 		if (memberService.isAdmin(actorId)) {
 			return new ResultData("S-2", "가능합니다.");
 		}
+
 		return new ResultData("F-1", "권한이 없습니다.");
 	}
 
