@@ -15,7 +15,6 @@ import com.sbs.untact.dto.Article;
 import com.sbs.untact.dto.Member;
 import com.sbs.untact.dto.ResultData;
 import com.sbs.untact.service.ArticleService;
-import com.sbs.untact.service.MemberService;
 import com.sbs.untact.util.Util;
 
 @Controller
@@ -26,8 +25,6 @@ public class UsrArticleController {
 
 	@Autowired
 	private ArticleService articleService;
-	@Autowired
-	private MemberService memberSevice;
 
 	@RequestMapping("/usr/article/list")
 	@ResponseBody
@@ -86,7 +83,7 @@ public class UsrArticleController {
 	public ResultData doAdd(@RequestParam Map<String, Object> param, HttpSession session) {
 
 		int loginedMemberId = Util.getAsInt(session.getAttribute("loginedMemberId"), 0);
-	
+
 		if (param.get("title") == null) {
 			return new ResultData("F-1", "title을 입력해주세요. ");
 		}
