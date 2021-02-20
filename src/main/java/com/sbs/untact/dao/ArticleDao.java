@@ -7,26 +7,29 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.sbs.untact.dto.Article;
+import com.sbs.untact.dto.ResultData;
 
 @Mapper
 public interface ArticleDao {
 
-	public Article getArticle(@Param(value = "id") int id);
+	public Article getArticle(@Param("id") int id);
 
 	public void addArticle(Map<String, Object> param);
 
-	public void deleteArticle(@Param(value = "id") int id);
+	public void deleteArticle(@Param("id") int id);
 
-	public void modifyArticle(@Param(value = "id") int id, @Param(value = "title") String title,
+	public void modifyArticle(@Param("id") int id, @Param(value = "title") String title,
 			@Param(value = "body") String body);
 
-	public List<Article> getArticles(@Param(value = "searchKeywordType") String searchKeywordType,
+	public List<Article> getArticles(@Param("searchKeywordType") String searchKeywordType,
 			@Param(value = "searchKeyword") String searchKeyword);
 
 	public Article getForPrintArticle(@Param("id") int id);
 
-	public List<Article> getForPrintArticles(@Param("searchKeywordType") String searchKeywordType,
-			@Param("searchKeyword") String searchKeyword, @Param("limitStart") int limitStart,
-			@Param("limitTake") int limitTake);
+	public List<Article> getForPrintArticles(@Param("boardId") int boardId,
+			@Param("searchKeywordType") String searchKeywordType, @Param("searchKeyword") String searchKeyword,
+			@Param("limitStart") int limitStart, @Param("limitTake") int limitTake);
+
+	public ResultData addReply(@Param("articleId") int articleId, @Param("body") String body);
 
 }

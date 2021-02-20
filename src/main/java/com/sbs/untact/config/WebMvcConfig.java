@@ -17,9 +17,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	// needToLoginInterceptor 인터셉터 불러오기
 	@Autowired
 	@Qualifier("needToLoginInterceptor")
-	HandlerInterceptor needToLoginInterCeptor;
+	HandlerInterceptor needToLoginInterceptor;
 
-	// needToLoginoutInterceptor 인터셉터 불러오기
+	// needToLogoutInterceptor 인터셉터 불러오기
 	@Autowired
 	@Qualifier("needToLogoutInterceptor")
 	HandlerInterceptor needToLogoutInterceptor;
@@ -31,7 +31,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		registry.addInterceptor(beforeActionInterceptor).addPathPatterns("/**").excludePathPatterns("resource/**");
 
 		// 로그인 필요
-		registry.addInterceptor(needToLoginInterCeptor).addPathPatterns("/**").excludePathPatterns("/")
+		registry.addInterceptor(needToLoginInterceptor).addPathPatterns("/**").excludePathPatterns("/")
 				.excludePathPatterns("/resource/**").excludePathPatterns("/usr/home/main")
 				.excludePathPatterns("/usr/member/login").excludePathPatterns("/usr/member/doLogin")
 				.excludePathPatterns("/usr/member/join").excludePathPatterns("/usr/member/doJoin")

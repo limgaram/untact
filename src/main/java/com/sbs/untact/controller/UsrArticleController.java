@@ -28,8 +28,8 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/list")
 	@ResponseBody
-	public ResultData showList(String searchKeywordType, String searchKeyword,
-			@RequestParam(defaultValue = "1") int page) {
+	public ResultData showList(@RequestParam(defaultValue = "1") int boardId, String searchKeywordType,
+			String searchKeyword, @RequestParam(defaultValue = "1") int page) {
 
 		if (searchKeywordType != null) {
 			// searchKeywordType이 비어있지 않으면 공백 제거
@@ -60,7 +60,7 @@ public class UsrArticleController {
 
 		int itemsInAPage = 20;
 
-		List<Article> articles = articleService.getForPrintArticles(searchKeywordType, searchKeyword, page,
+		List<Article> articles = articleService.getForPrintArticles(boardId, searchKeywordType, searchKeyword, page,
 				itemsInAPage);
 
 		return new ResultData("S-1", "성공", "articles", articles);
@@ -164,6 +164,15 @@ public class UsrArticleController {
 
 		return articleService.modifyArticle(id, title, body);
 
+	}
+
+	@RequestMapping("usr/article/doAddReply")
+	@ResponseBody
+	public ResultData doAddReply(int articleId, String body, HttpSession session) {
+
+		int loginedMemberId = Util.getAsInt(session.getAttribute("loginedMemberId"), 0);
+
+		return articleService.addReply(articleId, body);
 	}
 
 }

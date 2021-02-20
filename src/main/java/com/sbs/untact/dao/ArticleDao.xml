@@ -95,5 +95,13 @@
 		WHERE id = #{id}
 	</update>
 
+	<insert id="addReply">
+		INSERT INTO reply
+		SET regDate = NOW(),
+		updateDate =
+		NOW(),
+		articleId= #{articleId},
+		`body` = #{body}
+	</insert>
 
 </mapper>

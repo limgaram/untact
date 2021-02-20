@@ -72,12 +72,17 @@ public class ArticleService {
 		return articleDao.getForPrintArticle(id);
 	}
 
-	public List<Article> getForPrintArticles(String searchKeywordType, String searchKeyword, int page,
+	public List<Article> getForPrintArticles(int boardId, String searchKeywordType, String searchKeyword, int page,
 			int itemsInAPage) {
 		int limitStart = (page - 1) * itemsInAPage;
 		int limitTake = itemsInAPage;
 
-		return articleDao.getForPrintArticles(searchKeywordType, searchKeyword, limitStart, limitTake);
+		return articleDao.getForPrintArticles(boardId, searchKeywordType, searchKeyword, limitStart, limitTake);
+	}
+
+	public ResultData addReply(int articleId, String body) {
+
+		return articleDao.addReply(articleId, body);
 	}
 
 }
