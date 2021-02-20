@@ -28,7 +28,7 @@ public class NeedToLogoutInterceptor implements HandlerInterceptor {
 				response.getWriter().append("{\"resultCode\":\"F-A\",\"msg\":\"로그아웃 상태에서 이용해주세요.\"}");
 			}
 
-			// return flase; 이후에 실행될 인터셉터와 액션이 실행되지 않음.
+			// return false; 이후에 실행될 인터셉터와 액션이 실행되지 않음.
 			return false;
 		}
 

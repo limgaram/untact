@@ -27,7 +27,7 @@ public class NeedToLoginInterceptor implements HandlerInterceptor {
 				response.getWriter().append("location.replace('/usr/member/login?redirectUri="
 						+ request.getAttribute("encodedAfterLoginUri") + "');");
 				response.getWriter().append("</script>");
-				// return false; 이후에 싱행됭 인터셉터와 액션이 실행되지 않음
+				// return false; 이후에 실행될 인터셉터와 액션이 실행되지 않음
 			} else {
 				response.setContentType("applicatuib/json; charset=UTF-8");
 				response.getWriter().append("{\"resultCode\":\"F-A\",\"msg\":\"로그인 후 이용해주세요.\"}");
