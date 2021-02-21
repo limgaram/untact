@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.untact.dto.Article;
-import com.sbs.untact.dto.Member;
+import com.sbs.untact.dto.Board;
 import com.sbs.untact.dto.ResultData;
 import com.sbs.untact.service.ArticleService;
 import com.sbs.untact.util.Util;
@@ -30,6 +30,12 @@ public class UsrArticleController {
 	@ResponseBody
 	public ResultData showList(@RequestParam(defaultValue = "1") int boardId, String searchKeywordType,
 			String searchKeyword, @RequestParam(defaultValue = "1") int page) {
+
+		Board board = articleService.getBoard(boardId);
+
+		if (board == null) {
+			return new ResultData("F-1", "존재하지 않는 게시판 입니다.");
+		}
 
 		if (searchKeywordType != null) {
 			// searchKeywordType이 비어있지 않으면 공백 제거
@@ -166,13 +172,48 @@ public class UsrArticleController {
 
 	}
 
-	@RequestMapping("usr/article/doAddReply")
+	@RequestMapping("/usr/article/doAddReply")
 	@ResponseBody
-	public ResultData doAddReply(int articleId, String body, HttpSession session) {
+	public ResultData doAddReply(@RequestParam Map<String, Object> param, HttpSession session) {
+		int loginedMemberId = Util.getAsInt(session.getAttribute("loginedMemberId"), 0);
+
+		if (param.get("body") == null) {
+			return new ResultData("F-1", "body를 입력해주세요.");
+		}
+
+		if (param.get("articleId") == null) {
+			return new ResultData("F-1", "articleId를 입력해주세요.");
+		}
+
+		param.put("memberId", loginedMemberId);
+
+		return articleService.addReply(param);
+	}
+
+	@RequestMapping("/usr/article/doModifyReply")
+	@ResponseBody
+	public ResultData doModifyReply(@RequestParam Map<String, Object> param, HttpSession session) {
 
 		int loginedMemberId = Util.getAsInt(session.getAttribute("loginedMemberId"), 0);
 
-		return articleService.addReply(articleId, body);
+		if (param.get("body") == null) {
+			return new ResultData("F-1", "body를 입력해주세요.");
+		}
+
+		param.put("memberId", loginedMemberId);
+
+		return articleService.modifyReply(param);
+	}
+
+	@RequestMapping("/usr/article/doDeleteReply")
+	@ResponseBody
+	public ResultData doDeleteReply(@RequestParam Map<String, Object> param, HttpSession session) {
+
+		int loginedMemberId = Util.getAsInt(session.getAttribute("loginedMemberId"), 0);
+
+		param.put("memberId", loginedMemberId);
+
+		return articleService.deleteReply(param);
 	}
 
 }

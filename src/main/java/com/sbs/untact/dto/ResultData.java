@@ -4,6 +4,9 @@ import java.util.Map;
 
 import com.sbs.untact.util.Util;
 
+import lombok.Data;
+
+@Data
 public class ResultData {
 	private String resultCode;
 	private String msg;
@@ -22,5 +25,4 @@ public class ResultData {
 	public boolean isFail() {
 		return isSuccess() == false;
 	}
-
 }

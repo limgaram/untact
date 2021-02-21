@@ -730,3 +730,17 @@ Action:
 
 Identify and stop the process that's listening on port 8021 or configure this application to listen on another port.
 
+2021-02-21 08:52:51 [ERROR] o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8021 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8021 or configure this application to listen on another port.
+

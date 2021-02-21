@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.sbs.untact.dao.ArticleDao;
 import com.sbs.untact.dto.Article;
+import com.sbs.untact.dto.Board;
 import com.sbs.untact.dto.ResultData;
 import com.sbs.untact.util.Util;
 
@@ -80,9 +81,25 @@ public class ArticleService {
 		return articleDao.getForPrintArticles(boardId, searchKeywordType, searchKeyword, limitStart, limitTake);
 	}
 
-	public ResultData addReply(int articleId, String body) {
+	public ResultData addReply(Map<String, Object> param) {
+		articleDao.addReply(param);
 
-		return articleDao.addReply(articleId, body);
+		int id = Util.getAsInt(param.get("id"), 0);
+
+		return new ResultData("S-1", "성공하였습니다.", "id", id);
+
 	}
 
+	public Board getBoard(int id) {
+		return articleDao.getBoard(id);
+	}
+
+	public ResultData deleteReply(Map<String, Object> param) {
+		
+		return articleDao.deleteReply(param);
+	}
+
+	public ResultData modifyReply(Map<String, Object> param) {
+		return articleDao.modifyReply(param);
+	}
 }

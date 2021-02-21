@@ -5,6 +5,13 @@
 
 <mapper namespace="com.sbs.untact.dao.ArticleDao">
 
+	<select id="getBoard" resultType="Board">
+		SELECT *
+		FROM board
+		WHERE id =
+		#{id}
+	</select>
+
 	<select id="getArticle" resultType="Article">
 		SELECT *
 		FROM article
@@ -82,7 +89,7 @@
 	<update id="modifyArticle">
 		UPDATE article
 		<set>
-			<if test="title != null || body != null">
+			<if test="title != null or body != null">
 				updateDate = NOW(),
 			</if>
 			<if test="title != null">
@@ -95,13 +102,35 @@
 		WHERE id = #{id}
 	</update>
 
-	<insert id="addReply">
+	<insert id="addReply" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO reply
 		SET regDate = NOW(),
-		updateDate =
-		NOW(),
-		articleId= #{articleId},
-		`body` = #{body}
+		updateDate = NOW(),
+		articleId =
+		#{articleId},
+		`body` = #{body},
+		memberId = #{memberId}
 	</insert>
+
+	<delete id="deleteReply">
+		DELETE FROM reply
+		WHERE id = #{id}
+	</delete>
+
+	<update id="modifyReply">
+		UPDATE reply
+		<set>
+			<if test="title != null or body != null">
+				updateDate = NOW(),
+			</if>
+			<if test="title != null">
+				title = #{title},
+			</if>
+			<if test="body != null">
+				`body` = #{body}
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
 
 </mapper>
