@@ -81,25 +81,8 @@ public class ArticleService {
 		return articleDao.getForPrintArticles(boardId, searchKeywordType, searchKeyword, limitStart, limitTake);
 	}
 
-	public ResultData addReply(Map<String, Object> param) {
-		articleDao.addReply(param);
-
-		int id = Util.getAsInt(param.get("id"), 0);
-
-		return new ResultData("S-1", "성공하였습니다.", "id", id);
-
-	}
-
 	public Board getBoard(int id) {
 		return articleDao.getBoard(id);
 	}
 
-	public ResultData deleteReply(Map<String, Object> param) {
-		
-		return articleDao.deleteReply(param);
-	}
-
-	public ResultData modifyReply(Map<String, Object> param) {
-		return articleDao.modifyReply(param);
-	}
 }

@@ -33,9 +33,4 @@ public interface ArticleDao {
 
 	public Board getBoard(@Param("id") int id);
 
-	public void addReply(Map<String, Object> param);
-
-	public ResultData deleteReply(Map<String, Object> param);
-
-	public ResultData modifyReply(Map<String, Object> param);
 }

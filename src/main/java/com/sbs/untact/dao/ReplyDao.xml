@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sbs.untactTeacher.dao.ReplyDao">
+
+	<select id="getForPrintReplies" resultType="Reply">
+		SELECT R.*,
+		IFNULL(M.nickname, "탈퇴회원") AS extra__writer
+		FROM reply AS R
+		LEFT JOIN
+		`member` AS M
+		ON R.memberId = M.id
+		WHERE 1
+		AND R.relTypeCode =
+		#{relTypeCode}
+		AND R.relId = #{relId}
+	</select>
+	
+	<delete id="deleteReply">
+		DELETE FROM reply
+		WHERE id = #{id}
+	</delete>
+
+	<update id="modifyReply">
+		UPDATE reply
+		<set>
+			<if test="body != null">
+				updateDate = NOW(),
+			</if>
+			<if test="body != null">
+				`body` = #{body},
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+</mapper>

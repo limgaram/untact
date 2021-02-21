@@ -31,19 +31,32 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		registry.addInterceptor(beforeActionInterceptor).addPathPatterns("/**").excludePathPatterns("resource/**");
 
 		// 로그인 필요
-		registry.addInterceptor(needToLoginInterceptor).addPathPatterns("/**").excludePathPatterns("/")
-				.excludePathPatterns("/resource/**").excludePathPatterns("/usr/home/main")
-				.excludePathPatterns("/usr/member/login").excludePathPatterns("/usr/member/doLogin")
-				.excludePathPatterns("/usr/member/join").excludePathPatterns("/usr/member/doJoin")
-				.excludePathPatterns("/usr/article/list").excludePathPatterns("/usr/article/detail")
-				.excludePathPatterns("/usr/member/findLoginId").excludePathPatterns("/usr/member/doFindLoginId")
-				.excludePathPatterns("/usr/member/findLoginPw").excludePathPatterns("/usr/member/doFindLoginPw")
-				.excludePathPatterns("/usr/file/test*").excludePathPatterns("/usr/file/doTest*")
-				.excludePathPatterns("/usr/test/**").excludePathPatterns("/error");
+				registry.addInterceptor(needToLoginInterceptor)
+					.addPathPatterns("/**")
+					.excludePathPatterns("/")
+					.excludePathPatterns("/resource/**")
+					.excludePathPatterns("/usr/home/main")
+					.excludePathPatterns("/usr/member/login")
+					.excludePathPatterns("/usr/member/doLogin")
+					.excludePathPatterns("/usr/member/join")
+					.excludePathPatterns("/usr/member/doJoin")
+					.excludePathPatterns("/usr/article/list")
+					.excludePathPatterns("/usr/article/detail")
+					.excludePathPatterns("/usr/reply/list")
+					.excludePathPatterns("/usr/member/findLoginId")
+					.excludePathPatterns("/usr/member/doFindLoginId")
+					.excludePathPatterns("/usr/member/findLoginPw")
+					.excludePathPatterns("/usr/member/doFindLoginPw")
+					.excludePathPatterns("/usr/file/test*")
+					.excludePathPatterns("/usr/file/doTest*")
+					.excludePathPatterns("/test/**")
+					.excludePathPatterns("/error");
 
-		// 로그인 상태에서 접속학 수 없는 URL 전부 기술
-		registry.addInterceptor(needToLogoutInterceptor).addPathPatterns("/usr/member/login")
-				.addPathPatterns("/usr/member/doLogin").addPathPatterns("/usr/member/join")
-				.addPathPatterns("usr/member/doJoin");
-	}
+				// 로그인 상태에서 접속할 수 없는 URI 전부 기술
+				registry.addInterceptor(needToLogoutInterceptor)
+					.addPathPatterns("/usr/member/login")
+					.addPathPatterns("/usr/member/doLogin")
+					.addPathPatterns("/usr/member/join")
+					.addPathPatterns("/usr/member/doJoin");
+			}
 }
