@@ -31,6 +31,11 @@ public class UsrReplyController {
 	@ResponseBody
 	public ResultData showList(String relTypeCode, Integer relId) {
 
+		
+		if (relTypeCode == null) {
+			return new ResultData("F-1", "relTypeCode를 입력해주세요.");
+		}
+		
 		if (relId == null) {
 			return new ResultData("F-1", "relId를 입력해주세요.");
 		}

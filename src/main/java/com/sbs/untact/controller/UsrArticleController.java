@@ -3,6 +3,7 @@ package com.sbs.untact.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,9 +91,9 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
-	public ResultData doAdd(@RequestParam Map<String, Object> param, HttpSession session) {
+	public ResultData doAdd(@RequestParam Map<String, Object> param, HttpServletRequest req) {
 
-		int loginedMemberId = Util.getAsInt(session.getAttribute("loginedMemberId"), 0);
+		int loginedMemberId = (int)req.getAttribute("loginedMemberId");
 
 		if (param.get("title") == null) {
 			return new ResultData("F-1", "title을 입력해주세요. ");
@@ -109,9 +110,9 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public ResultData doDelete(Integer id, HttpSession session) {
+	public ResultData doDelete(Integer id, HttpServletRequest req) {
 
-		int loginedMemberId = Util.getAsInt(session.getAttribute("loginedMemberId"), 0);
+		int loginedMemberId = (int)req.getAttribute("loginedMemberId");
 
 		if (id == null) {
 			return new ResultData("F-1", "id를 입력해주세요.");
@@ -134,7 +135,7 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public ResultData doModify(Integer id, String title, String body, HttpSession session) {
+	public ResultData doModify(Integer id, String title, String body, HttpServletRequest req) {
 
 		// int는 null 불가능, Integer은 null 가능.
 		// @RequestParam(defaultValue = "0") int id
@@ -142,7 +143,7 @@ public class UsrArticleController {
 
 		// 입력 데이터 유효성 체크
 
-		int loginedMemberId = Util.getAsInt(session.getAttribute("loginedMemberId"), 0);
+		int loginedMemberId = (int)req.getAttribute("loginedMemberId");
 
 		if (id == null) {
 			return new ResultData("F-1", "id을 입력해주세요. ");

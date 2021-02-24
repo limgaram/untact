@@ -9,13 +9,18 @@
 		SELECT R.*,
 		IFNULL(M.nickname, "탈퇴회원") AS extra__writer
 		FROM reply AS R
-		LEFT JOIN
-		`member` AS M
+		LEFT JOIN `member` AS M
 		ON R.memberId = M.id
 		WHERE 1
-		AND R.relTypeCode =
-		#{relTypeCode}
+		AND R.relTypeCode = #{relTypeCode}
 		AND R.relId = #{relId}
+	</select>
+	
+	<select id="getReply" resultType="Reply">
+		SELECT R.*
+		FROM reply AS R
+		WHERE 1
+		AND R.id = #{id}
 	</select>
 	
 	<delete id="deleteReply">

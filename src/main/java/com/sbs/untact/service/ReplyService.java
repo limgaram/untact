@@ -10,6 +10,7 @@ import com.sbs.untact.dto.ResultData;
 
 @Service
 public class ReplyService {
+
 	@Autowired
 	private ReplyDao replyDao;
 

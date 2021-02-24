@@ -5,11 +5,28 @@
 
 <mapper namespace="com.sbs.untact.dao.ArticleDao">
 
+	<select id="getBoard" resultType="Board">
+		SELECT *
+		FROM board
+		WHERE id =
+		#{id}
+	</select>
+
 	<select id="getArticle" resultType="Article">
 		SELECT *
 		FROM article
 		WHERE id
 		= #{id}
+	</select>
+
+	<select id="getForPrintArticle" resultType="Article">
+		SELECT A.*,
+		IFNULL(M.nickname, "탈퇴회원") AS extra__writer
+		FROM article AS A
+		LEFT JOIN
+		`member` AS M
+		ON A.memberId = M.id
+		WHERE A.id = #{id}
 	</select>
 
 	<select id="getArticles" resultType="Article">
@@ -29,6 +46,30 @@
 		ORDER BY id DESC
 	</select>
 
+	<select id="getForPrintArticles" resultType="Article">
+		SELECT A.*,
+		IFNULL(M.nickname, "탈퇴회원") AS extra__writer
+		FROM article AS
+		A
+		LEFT JOIN `member` AS M
+		ON A.memberId = M.id
+		WHERE 1
+		<if test="searchKeywordType == `title`">
+			AND A.title LIKE CONCAT('%', #{SearchKeyword}, '%')
+		</if>
+		<if test="searchKeywordType == `body`">
+			AND A.`body` LIKE CONCAT('%', #{searchKeyword}, '%')
+		</if>
+		<if test="searchKeywordType == `titleAndBody`">
+			AND (A.`title` LIKE CONCAT('%', #{searchKeyword}, '%') OR
+			A.`body` LIKE CONCAT('%', #{searchKeyword}, '%'))
+		</if>
+		ORDER BY A.id DESC
+		<if test="limitStart != null and limitTake != null">
+			LIMIT #{limitStart}, #{limitTake}
+		</if>
+	</select>
+
 	<insert id="addArticle" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO article
 		SET regDate = NOW(),
@@ -36,7 +77,8 @@
 		NOW(),
 		title =
 		#{title},
-		`body` = #{body}
+		`body` = #{body},
+		memberId = #{memberId}
 	</insert>
 
 	<delete id="deleteArticle">
@@ -47,7 +89,7 @@
 	<update id="modifyArticle">
 		UPDATE article
 		<set>
-			<if test="title != null || body != null">
+			<if test="title != null or body != null">
 				updateDate = NOW(),
 			</if>
 			<if test="title != null">
@@ -60,5 +102,35 @@
 		WHERE id = #{id}
 	</update>
 
+	<insert id="addReply" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO reply
+		SET regDate = NOW(),
+		updateDate = NOW(),
+		articleId =
+		#{articleId},
+		`body` = #{body},
+		memberId = #{memberId}
+	</insert>
+
+	<delete id="deleteReply">
+		DELETE FROM reply
+		WHERE id = #{id}
+	</delete>
+
+	<update id="modifyReply">
+		UPDATE reply
+		<set>
+			<if test="title != null or body != null">
+				updateDate = NOW(),
+			</if>
+			<if test="title != null">
+				title = #{title},
+			</if>
+			<if test="body != null">
+				`body` = #{body}
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
 
 </mapper>
