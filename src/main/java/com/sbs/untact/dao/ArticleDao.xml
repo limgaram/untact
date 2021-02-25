@@ -73,8 +73,10 @@
 	<insert id="addArticle" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO article
 		SET regDate = NOW(),
-		updateDate =
-		NOW(),
+		updateDate = NOW(),
+		boardId =
+		#{boardId},
+		memberId = #{memberId},
 		title =
 		#{title},
 		`body` = #{body},
@@ -96,41 +98,11 @@
 				title = #{title},
 			</if>
 			<if test="body != null">
-				`body` = #{body}
+				`body` = #{body},
 			</if>
 		</set>
 		WHERE id = #{id}
 	</update>
 
-	<insert id="addReply" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO reply
-		SET regDate = NOW(),
-		updateDate = NOW(),
-		articleId =
-		#{articleId},
-		`body` = #{body},
-		memberId = #{memberId}
-	</insert>
-
-	<delete id="deleteReply">
-		DELETE FROM reply
-		WHERE id = #{id}
-	</delete>
-
-	<update id="modifyReply">
-		UPDATE reply
-		<set>
-			<if test="title != null or body != null">
-				updateDate = NOW(),
-			</if>
-			<if test="title != null">
-				title = #{title},
-			</if>
-			<if test="body != null">
-				`body` = #{body}
-			</if>
-		</set>
-		WHERE id = #{id}
-	</update>
 
 </mapper>
