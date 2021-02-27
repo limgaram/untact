@@ -1735,3 +1735,17 @@ Caused by: org.springframework.context.annotation.ConflictingBeanDefinitionExcep
 	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:207)
 	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:175)
 	... 19 common frames omitted
+2021-02-27 19:57:10 [ERROR] o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8021 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8021 or configure this application to listen on another port.
+

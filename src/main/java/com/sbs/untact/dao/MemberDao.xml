@@ -17,7 +17,8 @@
 		nickname =
 		#{nickname},
 		cellphoneNo = #{cellphoneNo},
-		email = #{email}
+		email = #{email},
+		authKey = CONCAT("authKey1__", UUID(), "__", RAND())
 	</insert>
 
 	<select id="getMember" resultType="Member">
