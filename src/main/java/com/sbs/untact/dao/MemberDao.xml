@@ -18,7 +18,8 @@
 		#{nickname},
 		cellphoneNo = #{cellphoneNo},
 		email = #{email},
-		authKey = CONCAT("authKey1__", UUID(), "__", RAND())
+		authKey =
+		CONCAT("authKey1__", UUID(), "__", RAND())
 	</insert>
 
 	<select id="getMember" resultType="Member">
@@ -32,6 +33,12 @@
 		SELECT *
 		FROM `member`
 		WHERE loginId = #{loginId}
+	</select>
+
+	<select id="getMemberByAuthKey" resultType="Member">
+		SELECT *
+		FROM `member`
+		WHERE authKey = #{authKey}
 	</select>
 
 	<update id="modifyMember">
