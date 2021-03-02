@@ -29,8 +29,10 @@
 		class="container mx-auto min-h-screen flex items-center justify-center">
 		<div class="w-full">
 			<div class="logo-bar flex justify-center mt-3">
-				<a href="#" class="logo"> 
-					<span><i class="fas fa-people-arrows"></i></span> 
+				<a href="#" class="logo">
+					<span>
+						<i class="fas fa-people-arrows"></i>
+					</span>
 					<span>UNTACT</span>
 				</a>
 			</div>
