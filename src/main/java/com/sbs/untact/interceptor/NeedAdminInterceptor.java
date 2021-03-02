@@ -17,7 +17,7 @@ public class NeedAdminInterceptor implements HandlerInterceptor {
 
 		// 이 인터셉터 실행 전에 beforeActionInterceptor가 실행되고 거기서 isAjax라는 속성 생성
 		// 그래서 여기서 단순히 request.getAttribute("isAjax"); 이것만으로 해당 요청이 ajax인지 구분 가능
-		boolean isAjax = true;
+		boolean isAjax = request.getParameter("isAjax") != null;
 
 		if (isAdmin == false) {
 			if (isAjax == false) {

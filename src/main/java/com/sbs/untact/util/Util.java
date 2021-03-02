@@ -63,4 +63,24 @@ public class Util {
 		return defaultValue;
 	}
 
+	public static String msgAndBack(String msg) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<script>");
+		sb.append("alert('" + msg + "');");
+		sb.append("history.back();");
+		sb.append("</script>");
+
+		return sb.toString();
+	}
+
+	public static String msgAndReplace(String msg, String url) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<script>");
+		sb.append("alert('" + msg + "');");
+		sb.append("location.replace('" + url + "');");
+		sb.append("</script>");
+
+		return sb.toString();
+	}
+
 }
