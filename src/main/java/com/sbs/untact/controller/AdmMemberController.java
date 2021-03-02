@@ -57,15 +57,6 @@ public class AdmMemberController {
 		return Util.msgAndReplace(msg, "../home/main");
 	}
 
-	@RequestMapping("/adm/member/doLogout")
-	@ResponseBody
-	public ResultData doLogout(HttpSession session) {
-
-		session.removeAttribute("loginedMemberId");
-
-		return new ResultData("S-1", "로그아웃 되었습니다.");
-	}
-
 	@RequestMapping("/adm/member/doModify")
 	@ResponseBody
 	public ResultData doModify(@RequestParam Map<String, Object> param, HttpServletRequest req) {
@@ -78,5 +69,13 @@ public class AdmMemberController {
 		param.put("id", loginedMemberId);
 
 		return memberService.modifyMember(param);
+	}
+
+	@RequestMapping("/adm/member/doLogout")
+	@ResponseBody
+	public String doLogout(HttpSession session) {
+		session.removeAttribute("loginedMemberId");
+
+		return Util.msgAndReplace("로그아웃 되었습니다.", "../member/login");
 	}
 }
