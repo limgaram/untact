@@ -27,7 +27,7 @@ public class AdmMemberController {
 
 	@RequestMapping("/adm/member/doLogin")
 	@ResponseBody
-	public String doLogin(String loginId, String loginPw, HttpSession session) {
+	public String doLogin(String loginId, String loginPw, String redirectUrl, HttpSession session) {
 
 		if (loginId == null) {
 			return Util.msgAndBack("loginId를 입력해주세요.");
@@ -54,7 +54,12 @@ public class AdmMemberController {
 		session.setAttribute("loginMemberId", existingMember.getId());
 
 		String msg = String.format("%s님 환영합니다.", existingMember.getNickname());
-		return Util.msgAndReplace(msg, "../home/main");
+
+		if (redirectUrl == null) {
+			redirectUrl = "../home/main";
+		}
+
+		return Util.msgAndReplace(msg, redirectUrl);
 	}
 
 	@RequestMapping("/adm/member/doModify")
