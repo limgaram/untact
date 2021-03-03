@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import com.sbs.untact.util.Util;
+
 @Component("needAdminInterceptor")
 public class NeedAdminInterceptor implements HandlerInterceptor {
 	@Override
@@ -25,7 +27,7 @@ public class NeedAdminInterceptor implements HandlerInterceptor {
 				response.getWriter().append("<script>");
 				response.getWriter().append("alert('관리자만 이용해주세요.');");
 				response.getWriter().append("location.replace('/adm/member/login?redirectUrl="
-						+ request.getAttribute("encodedAfterLoginUrl") + "');");
+						+ Util.reqAttr(request, "encodedAfterLoginUrl", "") + "');");
 				response.getWriter().append("</script>");
 				// return false; 이후에 실행될 인터셉터와 액션이 실행되지 않음
 			} else {

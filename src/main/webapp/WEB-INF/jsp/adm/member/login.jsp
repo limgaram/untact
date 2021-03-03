@@ -37,8 +37,7 @@
 			<form class="bg-white w-full shadow-md rounded px-8 pt-6 pb-8 mt-4"
 				action="doLogin" method="POST"
 				onsubmit="LoginForm__checkAndSubmit(this); return false;">
-				<input type="hidden" name="redirectUrl"
-					value="${param.redirectUrl} /">
+				<input type="hidden" name="redirectUrl" value="${param.redirectUrl} /">
 				<div class="flex flex-col mb-4 md:flex-row">
 					<div class="p-1 md:w-36 md:flex md:items-center">
 						<span>로그인아이디</span>
