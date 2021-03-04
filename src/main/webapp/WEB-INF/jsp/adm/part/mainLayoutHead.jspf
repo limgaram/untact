@@ -1,14 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@include file="head.jspf"%>
 
 <header class="top-bar h-20 bg-white">
 	<!-- 로고 -->
 	<div class="container mx-auto h-full flex">
-		<a href="/adm/home/main" class="logo flex items-cneter ml-2">
-			<span>
+		<a href="/adm/home/main" class="logo flex items-cneter ml-2"> <span>
 				<i class="fas fa-people-arrows"></i>
-			</span>
-			<span>UNTACT ADMIN</span>
+		</span> <span>UNTACT ADMIN</span>
 		</a>
 
 		<!-- 가운데 여백 주기 -->
@@ -17,30 +16,22 @@
 		<!-- 탑메뉴 만들기 -->
 		<nav class="menu-box-1">
 			<ul class="flex h-full">
-				<li>
-					<a class="text-xl px-4 flex items-center h-full hover:underline"
-						href="/adm/home/main">
-						<span>관리자 홈</span>
-					</a>
-				</li>
-				<li>
-					<a class="text-xl px-4 flex items-center h-full hover:underline"
-						href="/adm/board/list">
-						<span>게시판 관리</span>
-					</a>
-				</li>
-				<li>
-					<a class="text-xl px-4 flex items-center h-full hover:underline"
-						href="/adm/article/list">
-						<span>게시물 관리</span>
-					</a>
-				</li>
-				<li>
-					<a class="text-xl px-4 flex items-center h-full hover:underline"
-						href="/adm/member/doLogout">
-						<span>관리자 로그아웃</span>
-					</a>
-				</li>
+				<li><a
+					class="text-xl px-4 flex items-center h-full hover:underline"
+					href="/adm/home/main"> <span>관리자 홈</span>
+				</a></li>
+				<li><a
+					class="text-xl px-4 flex items-center h-full hover:underline"
+					href="/adm/board/list"> <span>게시판 관리</span>
+				</a></li>
+				<li><a
+					class="text-xl px-4 flex items-center h-full hover:underline"
+					href="/adm/article/list?boardId=1"> <span>게시물 관리</span>
+				</a></li>
+				<li><a
+					class="text-xl px-4 flex items-center h-full hover:underline"
+					href="/adm/member/doLogout"> <span>관리자 로그아웃</span>
+				</a></li>
 			</ul>
 		</nav>
 	</div>
