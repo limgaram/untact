@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +15,6 @@ import com.sbs.untact.dto.Article;
 import com.sbs.untact.dto.Board;
 import com.sbs.untact.dto.ResultData;
 import com.sbs.untact.service.ArticleService;
-import com.sbs.untact.util.Util;
 
 @Controller
 public class AdmArticleController extends BaseController {
@@ -87,6 +85,11 @@ public class AdmArticleController extends BaseController {
 		}
 
 		return new ResultData("S-1", "성공", "article", article);
+	}
+
+	@RequestMapping("/adm/article/add")
+	public String showAdd(@RequestParam Map<String, Object> param, HttpServletRequest req) {
+		return "adm/article/add";
 	}
 
 	@RequestMapping("/adm/article/doAdd")
