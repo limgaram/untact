@@ -48,11 +48,13 @@
 
 	<select id="getForPrintArticles" resultType="Article">
 		SELECT A.*,
-		IFNULL(M.nickname, "탈퇴회원") AS extra__writer
-		FROM article AS
-		A
+		IFNULL(M.nickname, "탈퇴회원") AS extra__writer,
+		B.name AS extra__boardName
+		FROM article AS A
 		LEFT JOIN `member` AS M
 		ON A.memberId = M.id
+		LEFT JOIN `board` AS B
+		ON A.boardId = B.id
 		WHERE 1
 		<if test="searchKeywordType == `title`">
 			AND A.title LIKE CONCAT('%', #{SearchKeyword}, '%')

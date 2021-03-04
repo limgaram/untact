@@ -10,7 +10,7 @@
 			<div class="flex justify-betwwen items-center mt-10">
 				<span class="font-loght text-gray-600">${article.regDate}</span> <a
 					href="list?boardId=${article.boardId}"
-					class="text-2xl text-gray-700 font-bold hover: underline">${article.boardId == 1 ? "공지" : "자유"}</a>
+					class="text-2xl text-gray-700 font-bold hover: underline">${article.boardName}</a>
 			</div>
 			<div class="mt-2">
 				<a href="detail?id=${article.id}"
