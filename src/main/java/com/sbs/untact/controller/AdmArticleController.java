@@ -76,10 +76,10 @@ public class AdmArticleController extends BaseController {
 				itemsInAPage);
 
 		for (Article article : articles) {
-			GenFile genFile = genFileService.getgenFile("article", article.getId(), "common", "attachment", 1);
+			GenFile genFile = genFileService.getGenFile("article", article.getId(), "common", "attachment", 1);
 
 			if (genFile != null) {
-				article.setExtra__thumbImg(genFile.getForPrintUrl);
+				article.setExtra__thumbImg(genFile.getForPrintUrl());
 			}
 		}
 
@@ -111,17 +111,17 @@ public class AdmArticleController extends BaseController {
 
 	@RequestMapping("/adm/article/doAdd")
 	@ResponseBody
-	public ResultData doAdd(@RequestParam Map<String, Object> param, HttpServletRequest req,
+	public String doAdd(@RequestParam Map<String, Object> param, HttpServletRequest req,
 			MultipartRequest multipartRequest) {
 
 		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
 
 		if (param.get("title") == null) {
-			return new ResultData("F-1", "title을 입력해주세요. ");
+			return msgAndBack(req, "title을 입력해주세요. ");
 		}
 
 		if (param.get("body") == null) {
-			return new ResultData("F-1", "body를 입력해주세요. ");
+			return msgAndBack(req, "body를 입력해주세요. ");
 		}
 
 		param.put("memberId", loginedMemberId);
@@ -141,7 +141,8 @@ public class AdmArticleController extends BaseController {
 
 		}
 
-		return addArticleRd;
+		return msgAndReplace(req, String.format("%d번 게시물이 작성되었습니다.", newArticleId),
+				"../article/detail?id=" + newArticleId);
 	}
 
 	@RequestMapping("/adm/article/doDelete")
