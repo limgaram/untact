@@ -18,5 +18,6 @@ public class Article {
 
 	private String extra__writer;
 	private String extra__boardName;
+	private String extra__thumbImg;
 
 }
