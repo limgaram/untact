@@ -4,6 +4,10 @@
 
 <%@ include file="../part/mainLayoutHead.jspf"%>
 
+<script>
+	param.boardId = parseInt("${board.id}");
+</script>
+
 <section class="section-1">
 	<div class="bg-white shadow-md rounded container mx-auto p-8 mt-8">
 
@@ -23,7 +27,7 @@
 			<div class="flex-grow"></div>
 
 			<a href="add?boardId=${param.boardId} class=" btn-primary bg-blue-500
-				hover:bg-blue-dark text-white font-bold py-2px-4rounded">글쓰기</a>
+				hover:bg-blue-dark text-white font-boldpy-2px-4rounded">글쓰기</a>
 		</div>
 		<div>
 			<c:foreach items="${articles}" var="article">
