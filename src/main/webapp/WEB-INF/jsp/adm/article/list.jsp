@@ -26,7 +26,7 @@
 
 			<div class="flex-grow"></div>
 
-			<a href="add?boardId=${param.boardId} class=" btn-primary bg-blue-500
+			<a href="add?boardId=${board.id} class=" btn-primary bg-blue-500
 				hover:bg-blue-dark text-white font-boldpy-2px-4rounded">글쓰기</a>
 		</div>
 		<div>

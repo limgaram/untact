@@ -4,9 +4,101 @@
 
 <%@ include file="../part/mainLayoutHead.jspf"%>
 
+<script>
+ArticleAdd__submited = false;
+function ArticleAdd__ckeckAndSubmit(form){
+	if(ArticleAdd__submited){
+		alert('처리 중입니다.');
+		return;
+	}
+	
+	form.title.value = for.title.vlaue.trim();
+	
+	if(form.title.value.length == 0){
+		alert('제목을 입력해주세요.');
+		form.title.focus();
+		
+		return false;
+	}
+	
+	form.body.value = form.body.value.trim();
+	
+	if(form.body.value.length == 0){
+		alert('내용을 입력해주세요.');
+		form.body.focus();
+		
+		return false;
+	}
+	
+	var maxSizeMb = 50;
+	var maxSize = maxSizeMb * 1024 * 1024;
+	if(form.file__article__0__common__attatchment__1.value){
+		if(form.file__article__0__common__attachment__1.files[0].size > maxSize){
+			alert(maxSizeMb + "MB 이하의 파일을 업로드 해주세요.");
+			form.file__article__0__common__attachment__1.focus();
+			
+			return;
+		}
+	}
+	
+	if(form.file__article__0__common__attatchment__2.value){
+		if(form.file__article__0__common__attachment__2.files[0].size > maxSize){
+			alert(maxSizeMb + "MB 이하의 파일을 업로드 해주세요.");
+			form.file__article__0__common__attachment__2.focus();
+			
+			return;
+		}
+	}
+	
+	const startSubmitForm = function(data){
+		let genFileIdStr = '';
+		
+		if(data && data.body.genFileIdStr){
+			genFileIdStr = data.body.genFileIdStr;
+		}
+		
+		form.genFileIdStr.value = genFileIdStr;
+		
+		form.file__article__0__common__attachment__1.value = '';
+		form.file__article__0__common__attachment__2.value = '';
+		
+		form.submit();
+	};
+	
+	
+	const startUploadFiles = function(onSuccess) {
+		var needToUpload = form.file__article__0__common__attachment__1.value.length > 0;
+		if (!needToUpload) {
+			needToUpload = form.file__article__0__common__attachment__2.value.length > 0;
+		}
+		
+		if (needToUpload == false) {
+			onSuccess();
+			return;
+		}
+		
+		var fileUploadFormData = new FormData(form);
+		
+		$.ajax({
+			url : '/common/genFile/doUpload',
+			data : fileUploadFormData,
+			processData : false,
+			contentType : false,
+			dataType : "json",
+			type : 'POST',
+			success : onSuccess
+		});
+	}
+	ArticleAdd__submited = true;
+	startUploadFiles(startSubmitForm);}
+</script>
+
 <section class="section-1">
 	<div class="bg-white shadow-md rounded container mx-auto p-8 mt-8">
-		<form action="doAdd" method="POST" enctype="multipart/form-data">
+		<form
+			onsubmit="ArticleAdd__checkAndSubmit(this); return false; action="
+			doAdd" method="POST" enctype="multipart/form-data">
+			<input type="hidden" name="genFileIdStr" vlaue="" /> 
 			<input type="hidden" name="boardId" value="${param.boardId}" />
 
 			<div class="form-row flex flex-col lg:flex-row">

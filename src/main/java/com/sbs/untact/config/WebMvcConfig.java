@@ -69,6 +69,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 				.addPathPatterns("/adm/member/doLogin").addPathPatterns("/usr/member/login")
 				.addPathPatterns("/usr/member/doLogin").addPathPatterns("/usr/member/join")
 				.addPathPatterns("/usr/member/doJoin");
+	}
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
